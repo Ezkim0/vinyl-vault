@@ -3,7 +3,8 @@ import ApolloClient from "apollo-boost";
 
 import { ApolloProvider, Query } from "react-apollo";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import VinylsContainer from './views/vinyls'
 import LoginView from './views/login'
@@ -20,9 +21,15 @@ const App = () => (
   <ApolloProvider client={client}>
     <Router>
       <div className="app">
-        <Route exact path="/" component={VinylsContainer} />
-        <Route exact path="/user/:id" component={UserView} />
-        <Route exact path="/login" component={LoginView} />
+        <Grid container spacing={16}>
+          <Grid item xs={12}>
+            <Paper className="content">
+              <Route exact path="/" component={VinylsContainer} />
+              <Route exact path="/user/:id" component={UserView} />
+              <Route exact path="/login" component={LoginView} />
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     </Router>
   </ApolloProvider>

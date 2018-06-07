@@ -1,6 +1,6 @@
 const merge = require('lodash/merge');
 
-const UserMutations = require('./user');
+//const UserMutations = require('./user');
 //const VinylMutations = require('./vinyl');
 
 const rootMutations = {
@@ -13,7 +13,9 @@ const mutateFunctions = {
 
 };
 
+//UserMutations,
+
 exports.resolvers = merge(
-    UserMutations,
+    
     mutateFunctions
 )
