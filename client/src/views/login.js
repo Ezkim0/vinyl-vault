@@ -6,15 +6,13 @@ import { graphql, Query, Mutation, } from "react-apollo";
 import gql from "graphql-tag";
 import GoogleLogin from 'react-google-login';
 import FontAwesome from 'react-fontawesome'
+import jwt from 'jsonwebtoken';
 
 import Page from '../layouts/page'
 
-const SIGNUP = gql`
+const LOGIN = gql`
   mutation ($email: String!) {
-    signup(email: $email) { 
-      _id
-      email
-    }
+    login(email: $email)
   }
 `;
 
@@ -35,8 +33,13 @@ class LoginView extends Component {
         email: response.profileObj.email
       },
     }).then( result => {
-      if(result && result.data && result.data.signup) {
-        this.props.history.push('/user/' + result.data.signup._id)
+      if(result && result.data && result.data.login) {
+        console.log("logged in", result.data.login)
+        const decoded = jwt.decode(result.data.login);
+        localStorage.setItem("_id", decoded._id);
+        localStorage.setItem("email", decoded.email);
+        localStorage.setItem("token", result.data.login);
+        this.props.history.push('/user/' + decoded._id)
       }
     });
   }
@@ -45,11 +48,10 @@ class LoginView extends Component {
     return <GoogleLogin
         clientId="582389113790-10frak81mhlsk16limrgkvfni598aq8l.apps.googleusercontent.com"
         onSuccess={this.executeMutation.bind(this)}
-        onFailure={this.executeMutation.bind(this)}
       >
       <span>Login with Google</span>
     </GoogleLogin>
   }
 }
 
-export default graphql(SIGNUP)(withRouter(LoginView));
+export default graphql(LOGIN)(withRouter(LoginView));

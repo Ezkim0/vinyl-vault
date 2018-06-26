@@ -15,7 +15,8 @@ const RootQuery = `
   }
 
   type Mutation {
-    signup(email: String name: String): User ,
+    signup(email: String): User,
+    login(email: String): String,
     removeUser(id: ID!): User,
   }
 `; 
